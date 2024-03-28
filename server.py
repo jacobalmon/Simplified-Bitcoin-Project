@@ -1,4 +1,5 @@
 from socket import *
+import json
 
 if __name__ == '__main__':
     serverPort = 12000 
@@ -7,7 +8,7 @@ if __name__ == '__main__':
     serverSocket = socket(AF_INET, SOCK_DGRAM) 
 
     #bind socket to the port.
-    serverSocket.bind(serverPort)
+    serverSocket.bind(('', serverPort))
 
     print('The server is ready to receive.')
 
@@ -24,7 +25,7 @@ if __name__ == '__main__':
     while True: #run the server infinitely.
         #read from socket into message and get the clients address.
         message, clientAddress = serverSocket.recvfrom(2048)
-        decodedMessage = message.decode()
+        decodedMessage = json.loads(message.decode())
 
         #receiving username and password from the client.
         username = decodedMessage['username']

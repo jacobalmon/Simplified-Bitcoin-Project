@@ -1,4 +1,5 @@
 from socket import *
+import json
 
 def displayTransactions(transactions):
     pass
@@ -19,14 +20,14 @@ def main():
     data = {'username': username, 'password': password}
     
     #sending username and password to the server.
-    clientSocket.sendto(data.encode(), serverName, serverPort)
+    clientSocket.sendto(json.dumps(data).encode(), (serverName, serverPort))
 
     #receiving response and address from the server.
     response, serverAddress = clientSocket.recvfrom(2048)
-    decodedResponse = response.decode()
+    decodedResponse = json.loads(response.decode())
 
     if decodedResponse['authenticated']:
-        print(f'User {username} is authenicated.')
+        print(f'User {username} is authenticated.')
         print(f'Balance: {decodedResponse['balance']}')
 
         #storing the balance and the transactions
@@ -47,7 +48,7 @@ def main():
             clientSocket.close()
             exit()
 
-        else: #recall main again, so the user can enter their username and password.
+        else: #recall main again, so the user can re-enter their username and password.
             main()
 
     #closing the socket.
