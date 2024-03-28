@@ -32,3 +32,6 @@ if __name__ == '__main__':
         password = decodedMessage['password']
 
         response = {}
+
+        #sending the server response back to the client.
+        serverSocket.sendto(json.dumps(response).encode(), clientAddress)

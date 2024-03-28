@@ -1,6 +1,7 @@
 from socket import *
 import json
 
+
 def displayTransactions(transactions):
     pass
 
@@ -36,10 +37,25 @@ def main():
 
         displayTransactions(transactions)
 
+        choice = input('Choose one of the following options?\n'
+                       '(1) Make a transaction.\n'
+                       '(2) Fetch and display the list of transactions.\n'
+                       '(3) Quit the program.\n'
+                       'Enter your choice: ')
+        
+        if choice == 1:
+            pass
+        
+        elif choice == 2:
+            pass
+
+        else: #terminate the program.
+            exit()
+
     else: #server rejects the message.
         print(f'Authenication failed for user {username}.')
         choose = input('Choose one of the following options?\n'
-                       'a. Enter the username and password again\n'
+                       'a. Enter the username and password again.\n'
                        'b. Quit the program.\n'
                        'Enter your choice: ')
         
