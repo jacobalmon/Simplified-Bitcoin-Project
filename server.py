@@ -14,7 +14,8 @@ if __name__ == '__main__':
     #printing that the server is ready to receive messages.
     print('The server is ready to receive.')
 
-    users = { #created hashmap/dictionary to store all possible user information.
+    #created hashmap/dictionary to store all possible user information.
+    users = { #Note the user's username is used as the key.
         'A': {'password': 'A', 'balance': 10, 'txts': []},
         'B': {'password': 'B', 'balance': 10, 'txts': []},
         'C': {'password': 'C', 'balance': 10, 'txts': []},
