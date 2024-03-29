@@ -2,7 +2,8 @@ from socket import *
 import json
 
 if __name__ == '__main__':
-    serverPort = 12000 
+    #using port 12000.
+    serverPort = 12000
 
     #creating a UDP socket for the server.
     serverSocket = socket(AF_INET, SOCK_DGRAM) 
@@ -10,10 +11,8 @@ if __name__ == '__main__':
     #bind socket to the port.
     serverSocket.bind(('', serverPort))
 
+    #printing that the server is ready to receive messages.
     print('The server is ready to receive.')
-
-    clientList = ['A', 'B', 'C', 'D']
-    transactionsList = []
 
     users = { #created hashmap/dictionary to store all possible user information.
         'A': {'password': 'A', 'balance': 10, 'txts': []},
@@ -31,6 +30,7 @@ if __name__ == '__main__':
         username = decodedMessage['username']
         password = decodedMessage['password']
 
+        #using hashmap/dictionary for server response.
         response = {}
 
         #sending the server response back to the client.

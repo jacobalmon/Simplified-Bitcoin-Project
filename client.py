@@ -49,7 +49,7 @@ def main():
         elif choice == 2:
             pass
 
-        else: #terminate the program.
+        elif choice == 3: #terminate the program.
             exit()
 
     else: #server rejects the message.
@@ -64,7 +64,7 @@ def main():
             clientSocket.close()
             exit()
 
-        else: #recall main again, so the user can re-enter their username and password.
+        elif choose.lower() == 'a': #recall main again, so the user can re-enter their username and password.
             main()
 
     #closing the socket.
