@@ -34,6 +34,7 @@ if __name__ == '__main__':
         #using hashmap/dictionary for server response.
         response = {}
 
+        #checking if the username is valid and if their password is correct.
         if username in users and users[username]['password'] == password:
             response['authenticated'] = True
             response['balance'] = users[username]['balance']

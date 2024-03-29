@@ -1,10 +1,22 @@
 from socket import *
-import prettytable
+from prettytable import PrettyTable
 import json
 
 
 def displayTransactions(transactions):
-    pass
+    table = PrettyTable()
+    table.field_names = ['TX ID', 'Payer', 'Amount Transferred by Payer', 'Payee', 'Amount Received by Payee']
+
+    for tx in transactions:
+        tx_id = tx['tx_id']
+        payer = tx['payer']
+        amount_transferred = tx['amount_transferred']
+        payee = tx['payee']
+        amount_recieved = tx['amount_received']
+
+        table.add_row([tx_id, payer, amount_transferred, payee, amount_recieved])
+
+    print(table)
 
 
 def main():
@@ -71,5 +83,5 @@ def main():
     #closing the socket.
     clientSocket.close()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
