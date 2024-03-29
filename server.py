@@ -34,5 +34,13 @@ if __name__ == '__main__':
         #using hashmap/dictionary for server response.
         response = {}
 
+        if username in users and users[username]['password'] == password:
+            response['authenticated'] = True
+            response['balance'] = users[username]['balance']
+            response['txs'] = users[username]['txts']
+
+        else:
+            response['authenticated'] = False
+
         #sending the server response back to the client.
         serverSocket.sendto(json.dumps(response).encode(), clientAddress)

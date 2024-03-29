@@ -1,11 +1,11 @@
 from socket import *
+import prettytable
 import json
 
 
 def displayTransactions(transactions):
     pass
 
-#i make changes.
 
 def main():
     serverName = 'localhost'
