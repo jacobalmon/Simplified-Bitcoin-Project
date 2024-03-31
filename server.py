@@ -37,9 +37,9 @@ if __name__ == '__main__':
         #checking if the username is valid and if their password is correct.
         if username in users and users[username]['password'] == password:
             response['authenticated'] = True
+            response['tx_id'] = users[username]['tx_id']
             response['balance'] = users[username]['balance']
             response['txs'] = users[username]['txs']
-            response['tx_id'] = users[username]['tx_id']
 
         else:
             response['authenticated'] = False

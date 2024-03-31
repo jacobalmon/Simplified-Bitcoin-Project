@@ -12,9 +12,9 @@ def displayTransactions(transactions):
         payer = tx['payer']
         amount_transferred = tx['amount_transferred']
         payee = tx['payee']
-        amount_recieved = tx['amount_received']
+        amount_received = tx['amount_received']
 
-        table.add_row([tx_id, payer, amount_transferred, payee, amount_recieved])
+        table.add_row([tx_id, payer, amount_transferred, payee, amount_received])
 
     print(table)
 
