@@ -79,8 +79,7 @@ def main():
             elif username == 'D':
                 payee1_cases = ['A', 'B', 'C']
 
-            print("Who will be Payee1?\n")
-            
+            print('Who will be Payee1?')
             for i, payee in enumerate(payee1_cases):
                 print(f'{i}. {payee}')
 
@@ -97,8 +96,7 @@ def main():
             if amount_transferred - amount_payee1 > 0:
                 payee2_cases = [p for p in payee1_cases if p != payee1]
 
-                print(f'Who will be Payee2?\n')
-
+                print(f'Who will be Payee2?')
                 for i, payee in enumerate(payee2_cases):
                     print(f'{i}. {payee}')
 
