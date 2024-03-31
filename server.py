@@ -55,8 +55,8 @@ if __name__ == '__main__':
             amount_transferred = tx['amount_transferred']
             payee1 = tx['payee1']
             amount_received_payee1 = tx['amount_received_payee1']
-            payee2 = tx['payee2']
-            amount_received_payee2 = tx['amount_received_payee2']
+            payee2 = tx.get('payee2', None)
+            amount_received_payee2 = tx.get('amount_received_payee2', None)
 
             response = {}
 
@@ -70,11 +70,13 @@ if __name__ == '__main__':
 
                 users[payer]['balance'] -= amount_transferred
                 users[payer]['txs'].append(tx)
+                users[payee1]['txs'].append(tx)
                 users[payer]['tx_id'] += 1
                 users[payee1]['balance'] += amount_received_payee1
                 
                 if payee2:
                     users[payee2]['balance'] += amount_received_payee2
+                    users[payee2]['txs'].append(tx)
 
 
             serverSocket.sendto(json.dumps(response).encode(), clientAddress)
