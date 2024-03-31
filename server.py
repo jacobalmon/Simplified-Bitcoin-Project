@@ -27,22 +27,54 @@ if __name__ == '__main__':
         message, clientAddress = serverSocket.recvfrom(2048)
         decodedMessage = json.loads(message.decode())
 
-        #receiving username and password from the client.
-        username = decodedMessage['username']
-        password = decodedMessage['password']
 
-        #using hashmap/dictionary for server response.
-        response = {}
+        if 'username' in decodedMessage and 'password' in decodedMessage:
+            #receiving username and password from the client.
+            username = decodedMessage['username']
+            password = decodedMessage['password']
 
-        #checking if the username is valid and if their password is correct.
-        if username in users and users[username]['password'] == password:
-            response['authenticated'] = True
-            response['tx_id'] = users[username]['tx_id']
-            response['balance'] = users[username]['balance']
-            response['txs'] = users[username]['txs']
+            #using hashmap/dictionary for server response.
+            response = {}
 
-        else:
-            response['authenticated'] = False
+            #checking if the username is valid and if their password is correct.
+            if username in users and users[username]['password'] == password:
+                response['authenticated'] = True
+                response['tx_id'] = users[username]['tx_id']
+                response['balance'] = users[username]['balance']
+                response['txs'] = users[username]['txs']
 
-        #sending the server response back to the client.
-        serverSocket.sendto(json.dumps(response).encode(), clientAddress)
+            else:
+                response['authenticated'] = False
+
+            #sending the server response back to the client.
+            serverSocket.sendto(json.dumps(response).encode(), clientAddress)
+        
+        elif 'action' in decodedMessage and decodedMessage['action'] == 'make_transaction':
+            tx = decodedMessage['transaction']
+            payer = tx['payer']
+            amount_transferred = tx['amount_transferred']
+            payee1 = tx['payee1']
+            amount_received_payee1 = tx['amount_received_payee1']
+            payee2 = tx['payee2']
+            amount_received_payee2 = tx['amount_received_payee2']
+
+            response = {}
+
+            if users[payer]['balance'] < amount_transferred:
+                response['status'] = 'rejected'
+                response['balance'] = users[payer]['balance']
+
+            else:
+                response['status'] = 'confirmed'
+                response['balance'] = users[payer]['balance'] - amount_transferred
+
+                users[payer]['balance'] -= amount_transferred
+                users[payer]['txs'].append(tx)
+                users[payer]['tx_id'] += 1
+                users[payee1]['balance'] += amount_received_payee1
+                
+                if payee2:
+                    users[payee2]['balance'] += amount_received_payee2
+
+
+            serverSocket.sendto(json.dumps(response).encode(), clientAddress)

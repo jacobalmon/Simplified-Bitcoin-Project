@@ -5,16 +5,18 @@ import json
 
 def displayTransactions(transactions):
     table = PrettyTable()
-    table.field_names = ['TX ID', 'Payer', 'Amount Transferred by Payer', 'Payee', 'Amount Received by Payee']
+    table.field_names = ['TX ID', 'Payer', 'Amount Transferred by Payer', 'Payee1', 'Amount Received by Payee1', 'Payee2', 'Amount Received by Payee2']
 
     for tx in transactions:
         tx_id = tx['tx_id']
         payer = tx['payer']
         amount_transferred = tx['amount_transferred']
-        payee = tx['payee']
-        amount_received = tx['amount_received']
+        payee1 = tx['payee1']
+        amount_received_payee1 = tx['amount_received_payee1']
+        payee2 = tx['payee2']
+        amount_received_payee2 = tx['amount_received_payee2']
 
-        table.add_row([tx_id, payer, amount_transferred, payee, amount_received])
+        table.add_row([tx_id, payer, amount_transferred, payee1, amount_received_payee1, payee2, amount_received_payee2])
 
     print(table)
 
@@ -56,13 +58,72 @@ def main():
                        '(3) Quit the program.\n'
                        'Enter your choice: ')
         
-        if choice == 1:
-            pass
+        if choice == '1':
+            tx = {}
+            tx['tx_id'] = decodedResponse['tx_id']
+            tx['payer'] = username
+
+            amount_transferred = float(input('How much do you transfer? '))
+            tx['amount_transferred'] = amount_transferred
+
+            payee1_cases = []
+            if username == 'A':
+                payee1_cases = ['B', 'C', 'D']
+
+            elif username == 'B':
+                payee1_cases = ['A', 'C', 'D']
+
+            elif username == 'C':
+                payee1_cases = ['A', 'B', 'D']
+
+            elif username == 'D':
+                payee1_cases = ['A', 'B', 'C']
+
+            print("Who will be Payee1?\n")
+            
+            for i, payee in enumerate(payee1_cases):
+                print(f'{i}. {payee}')
+
+            payee1 = input('Enter Payee1: ')
+            tx['payee1'] = payee1
+
+            amount_payee1 = float(input(f'How much will {payee1} receive? '))
+            while amount_payee1 > amount_transferred:
+                print(f'Please enter a value  less than or equal to {amount_transferred}.')
+                amount_payee1 = float(input(f'How much will {payee1} receive? '))
+
+            tx['amount_received_payee1'] = amount_payee1
+
+            if amount_transferred - amount_payee1 > 0:
+                payee2_cases = [p for p in payee1_cases if p != payee1]
+
+                print(f'Who will be Payee2?\n')
+
+                for i, payee in enumerate(payee2_cases):
+                    print(f'{i}. {payee}')
+
+                payee2 = input("Enter Payee2: ")
+                tx['payee2'] = payee2
+                tx['amount_received_payee2'] = amount_transferred - amount_payee1
+            
+            transactions.append(tx)
+
+            clientSocket.sendto(json.dumps({'action': 'make_transaction', 'transaction': tx}).encode(), (serverName, serverPort))
+            response, serverAddress = clientSocket.recvfrom(2048)
+            decodedResponse = json.loads(response.decode())
+
+            if decodedResponse['status'] == 'confirmed':
+                print(f'Transaction {tx['tx_id']} confirmed.')
+                print(f'Updated Balance: {decodedResponse['balance']}')
+            
+            else:
+                print(f'Transaction {tx['tx_id']} rejected.')
+                print(f'Current Balance: {decodedResponse['balance']}')
         
-        elif choice == 2:
+        elif choice == '2':
             pass
 
-        elif choice == 3: #terminate the program.
+        elif choice == '3': #terminate the program.
             exit()
 
     else: #server rejects the message.
