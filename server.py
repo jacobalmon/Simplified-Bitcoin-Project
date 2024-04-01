@@ -71,6 +71,7 @@ if __name__ == '__main__':
                 response['balance'] = users[payer]['balance']
 
                 print(f'Rejected a transaction for user {username}')
+                print(f'User {username} balance is {response['balance']} BTC.')
 
             else:
                 print(f'Send the list of transactions to user {username}.')
@@ -88,6 +89,7 @@ if __name__ == '__main__':
                     users[payee2]['txs'].append(tx)
 
                 print(f'Confirmed a transaction for user {username}.')
+                print(f'User {username} balance is {response['balance']} BTC.')
 
 
             serverSocket.sendto(json.dumps(response).encode(), clientAddress)

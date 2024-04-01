@@ -44,7 +44,7 @@ def main():
 
     if decodedResponse['authenticated']:
         print(f'User {username} is authenticated.')
-        print(f'Balance: {decodedResponse['balance']}')
+        print(f'Balance: {decodedResponse['balance']} BTC')
 
         #storing the balance and the transactions
         balance = decodedResponse['balance']
@@ -117,11 +117,11 @@ def main():
 
             if decodedResponse['status'] == 'confirmed':
                 print(f'Transaction {tx['tx_id']} confirmed.')
-                print(f'Updated Balance: {decodedResponse['balance']}')
+                print(f'Updated Balance: {decodedResponse['balance']} BTC')
             
             else:
                 print(f'Transaction {tx['tx_id']} rejected.')
-                print(f'Current Balance: {decodedResponse['balance']}')
+                print(f'Current Balance: {decodedResponse['balance']} BTC')
         
         elif choice == '2':
             pass
