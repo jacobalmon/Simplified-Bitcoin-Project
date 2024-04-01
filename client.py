@@ -64,6 +64,11 @@ def main():
             tx['payer'] = username
 
             amount_transferred = float(input('How much do you transfer? '))
+
+            while amount_transferred > balance:
+                print(f'Please enter a value less than or equal to {balance}.')
+                amount_transferred = float(input('How much do you transfer? '))
+
             tx['amount_transferred'] = amount_transferred
 
             payee1_cases = []
@@ -88,7 +93,7 @@ def main():
 
             amount_payee1 = float(input(f'How much will {payee1} receive? '))
             while amount_payee1 > amount_transferred:
-                print(f'Please enter a value  less than or equal to {amount_transferred}.')
+                print(f'Please enter a value less than or equal to {amount_transferred}.')
                 amount_payee1 = float(input(f'How much will {payee1} receive? '))
 
             tx['amount_received_payee1'] = amount_payee1
