@@ -29,6 +29,7 @@ if __name__ == '__main__':
 
 
         if 'username' in decodedMessage and 'password' in decodedMessage:
+            print(f'Received an authenication request from user {username}')
             #receiving username and password from the client.
             username = decodedMessage['username']
             password = decodedMessage['password']
@@ -43,13 +44,18 @@ if __name__ == '__main__':
                 response['balance'] = users[username]['balance']
                 response['txs'] = users[username]['txs']
 
+                print(f'User {username} is authenticated.')
+
             else:
                 response['authenticated'] = False
+
+                print(f'User {username} is not authenticated.')
 
             #sending the server response back to the client.
             serverSocket.sendto(json.dumps(response).encode(), clientAddress)
         
         elif 'action' in decodedMessage and decodedMessage['action'] == 'make_transaction':
+            print(f'Received an make transaction request from user {username}.')
             tx = decodedMessage['transaction']
             payer = tx['payer']
             amount_transferred = tx['amount_transferred']
@@ -64,7 +70,10 @@ if __name__ == '__main__':
                 response['status'] = 'rejected'
                 response['balance'] = users[payer]['balance']
 
+                print(f'Rejected a transaction for user {username}')
+
             else:
+                print(f'Send the list of transactions to user {username}.')
                 response['status'] = 'confirmed'
                 response['balance'] = users[payer]['balance'] - amount_transferred
 
@@ -77,6 +86,8 @@ if __name__ == '__main__':
                 if payee2:
                     users[payee2]['balance'] += amount_received_payee2
                     users[payee2]['txs'].append(tx)
+
+                print(f'Confirmed a transaction for user {username}.')
 
 
             serverSocket.sendto(json.dumps(response).encode(), clientAddress)
