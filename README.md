@@ -34,4 +34,5 @@ for simplicity.
 **Acknowledgements**
 
 Jacob Almon (Undergraduate of Computer Science)
+
 Eduardo Rocha (Undergraduate of Computer Science)
