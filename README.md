@@ -19,6 +19,7 @@ your choice.
 **Prerequisites**
 
 Code Editor of your Choice
+
 Python 3 https://www.python.org/
 
 PyQt5 'pip install PyQt5'
