@@ -20,7 +20,8 @@ your choice.
 
 Code Editor of your Choice
 Python 3 https://www.python.org/
-PyQt5 pip install PyQt5
+
+PyQt5 'pip install PyQt5'
 
 **Usage**
 
